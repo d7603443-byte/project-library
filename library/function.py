@@ -19,8 +19,6 @@ def chose_number():
         if chose == "3":
            add_book()
 
-
-        
         if chose =="4":
              borrow = input("enter name the book")
              borrow_book(borrow)
@@ -47,7 +45,7 @@ def search_book():
     name = input("enter your book anme")
     for book in books:
          if name in book["name"]:
-              return book
+              print( book)
     print( "404, not found")
          
 
@@ -56,25 +54,23 @@ def add_book():
             name = input("enter name book")
             author =input("enter author book")
             year = input ("enter year book")
-            try_year = year
-            if int(try_year) != year:
-                raise ValueError("you need to enter positive number")
-            books.append (f" id: {3}, name: {name}, author:{author}, year: {year}, available: True")
+            year = int(year)
+            if year < 0:
+                raise ValueError ("the number must be positive")
+            books.append (f" id: {get_next_book_id(books)}, name: {name}, author:{author}, year: {year}, available: True")
             print(books)
         except ValueError, TypeError:
             print("try again")
-            return menu()
+            
         
  
 def borrow_book(borrow):
     for book in books:
         if book["name"] == borrow:
             if book["available"] == False:
-                return ("The book has already been borrowed. ")
+                print ("The book has already been borrowed. ")
             print("Book borrowed successfully ")
             book["available"] = False
-            return menu()
-        
     print ("404, not found")
     return menu()
 
@@ -87,7 +83,7 @@ def return_book( back):
             book["available"] = False
             return menu()
     print ("404, not found")
-    return menu()
+    
 
 def get_available_books():
     free = []
@@ -107,13 +103,13 @@ def get_books_by_author(author):
     for book in books:
         if author in book["author"]:
             print(book)
-            return menu()
     print("404, not found")
     
              
 
 def get_next_book_id(books):
-    return True
+    return len(books) + 1
+    
 
 
                 
